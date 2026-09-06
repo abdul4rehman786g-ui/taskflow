@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard
+Disallow: /settings
+Disallow: /projects
+Disallow: /tasks
+Disallow: /team
+Disallow: /calendar
+Disallow: /notifications
+
+Sitemap: https://taskflow.vercel.app/sitemap.xml

@@ -1,0 +1,6 @@
+{
+  "name": "TaskFlow",
+  "description": "Production-style MERN project management SaaS for teams to manage workspaces, projects, Kanban boards, tasks, and activities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
