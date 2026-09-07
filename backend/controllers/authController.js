@@ -151,6 +151,7 @@ export const googleAuth = asyncHandler(async (req, res) => {
     const admin = getFirebaseAdmin();
     decoded = await admin.auth().verifyIdToken(idToken);
   } catch (error) {
+    console.error('❌ Google token verify failed:', error.message);
     return res.status(401).json({
       success: false,
       message: 'Invalid or expired Google sign-in token',
