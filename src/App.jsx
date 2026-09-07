@@ -13,6 +13,7 @@ import { getMe } from './redux/slices/authSlice.js';
 import { fetchWorkspaces } from './redux/slices/workspaceSlice.js';
 import { fetchNotifications } from './redux/slices/notificationSlice.js';
 import { AppLayout } from './components/layout/AppLayout.jsx';
+import { LandingPage } from './pages/LandingPage.jsx';
 import { Login } from './pages/Auth/Login.jsx';
 import { Register } from './pages/Auth/Register.jsx';
 import { Dashboard } from './pages/Dashboard/Dashboard.jsx';
@@ -24,6 +25,25 @@ import { TeamManagement } from './pages/Team/TeamManagement.jsx';
 import { NotificationsPage } from './pages/Notifications/NotificationsPage.jsx';
 import { Settings } from './pages/Settings/Settings.jsx';
 import { Loader2 } from 'lucide-react';
+
+const RootRoute = () => {
+  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-stone-50 dark:bg-stone-900 flex flex-col items-center justify-center text-stone-900 dark:text-white transition-colors">
+        <Loader2 className="w-8 h-8 animate-spin text-emerald-500 mb-3" />
+        <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Connecting to TaskFlow...</p>
+      </div>
+    );
+  }
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <LandingPage />;
+};
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
@@ -127,6 +147,9 @@ function AppContent() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Landing & Marketing */}
+        <Route path="/landing" element={<LandingPage />} />
+
         {/* Public Authentication routes */}
         <Route
           path="/login"
@@ -147,26 +170,27 @@ function AppContent() {
 
         {/* Protected Application Workspace */}
         <Route
-          path="/"
           element={
             <ProtectedRoute>
               <AppLayout />
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardWrapper />} />
-          <Route path="tasks" element={<MyTasksWrapper />} />
-          <Route path="projects" element={<ProjectsListWrapper />} />
-          <Route path="projects/:id" element={<ProjectDetailWrapper />} />
-          <Route path="calendar" element={<CalendarViewWrapper />} />
-          <Route path="team" element={<TeamManagement />} />
-          <Route path="notifications" element={<NotificationsPage />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="/dashboard" element={<DashboardWrapper />} />
+          <Route path="/tasks" element={<MyTasksWrapper />} />
+          <Route path="/projects" element={<ProjectsListWrapper />} />
+          <Route path="/projects/:id" element={<ProjectDetailWrapper />} />
+          <Route path="/calendar" element={<CalendarViewWrapper />} />
+          <Route path="/team" element={<TeamManagement />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
+        {/* Root Route: shows LandingPage if unauthenticated, or redirects to /dashboard if authenticated */}
+        <Route path="/" element={<RootRoute />} />
+
         {/* Catch-all redirect */}
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
