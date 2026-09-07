@@ -28,8 +28,8 @@ import {
   Activity,
   Users
 } from 'lucide-react';
-import { toggleTheme } from '../../redux/slices/uiSlice.js';
-import { login } from '../../redux/slices/authSlice.js';
+import { toggleTheme } from '../redux/slices/uiSlice.js';
+import { login } from '../redux/slices/authSlice.js';
 
 export function LandingPage() {
   const navigate = useNavigate();
