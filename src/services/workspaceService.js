@@ -32,6 +32,16 @@ export const workspaceService = {
     return response.data;
   },
 
+  inviteMember: async (workspaceId, email, role) => {
+    const response = await api.post(`/workspaces/${workspaceId}/members`, { email, role });
+    return response.data;
+  },
+
+  removeMember: async (workspaceId, memberId) => {
+    const response = await api.delete(`/workspaces/${workspaceId}/members/${memberId}`);
+    return response.data;
+  },
+
   updateMemberRole: async (workspaceId, memberId, role) => {
     const response = await api.patch(`/workspaces/${workspaceId}/members/${memberId}`, { role });
     return response.data;
